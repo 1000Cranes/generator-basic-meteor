@@ -6,6 +6,9 @@ var yosay = require('yosay');
 module.exports = yeoman.generators.Base.extend({
   initializing: function () {
     this.pkg = require('../package.json');
+    this.packages = [
+      'standard-app-packages', 'twbs:bootstrap'
+    ];
   },
 
   prompting: function () {
@@ -56,6 +59,7 @@ module.exports = yeoman.generators.Base.extend({
   },
 
   install: function () {
-    this.installDependencies();
+    this.write('.meteor/packages', this.packages.join('\n'));
+    this.spawnCommand('meteor', ['update']);
   }
 });
