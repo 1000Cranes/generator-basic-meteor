@@ -5,7 +5,6 @@ var yosay = require('yosay');
 
 module.exports = yeoman.generators.Base.extend({
   initializing: function () {
-    this.pkg = require('../package.json');
     this.packages = [
       'standard-app-packages', 'twbs:bootstrap'
     ];
@@ -20,10 +19,10 @@ module.exports = yeoman.generators.Base.extend({
     ));
 
     var prompts = [{
-      type: 'confirm',
-      name: 'someOption',
-      message: 'Would you like to enable this option?',
-      default: true
+     type: 'input',
+     name: 'catchyPhrase',
+     message: 'Tell me a catchy phrase you have recently heard?',
+     default: 'The grass is always greener ...'
     }];
 
     this.prompt(prompts, function (props) {
@@ -35,25 +34,33 @@ module.exports = yeoman.generators.Base.extend({
   },
 
   writing: {
-    app: function () {
+    meteor: function () {
       this.fs.copy(
-        this.templatePath('_package.json'),
-        this.destinationPath('package.json')
-      );
-      this.fs.copy(
-        this.templatePath('_bower.json'),
-        this.destinationPath('bower.json')
+        this.templatePath('.meteor/release'),
+        this.destinationPath('.meteor/release')
       );
     },
 
-    projectfiles: function () {
-      this.fs.copy(
-        this.templatePath('editorconfig'),
-        this.destinationPath('.editorconfig')
+    clientfiles: function () {
+      this.fs.copyTpl(
+        this.templatePath('client/index.html'),
+        this.destinationPath('client/index.html'),
+        { catchyPhrase: this.props.catchyPhrase }
       );
       this.fs.copy(
-        this.templatePath('jshintrc'),
-        this.destinationPath('.jshintrc')
+        this.templatePath('client/app.js'),
+        this.destinationPath('client/app.js')
+      );
+      this.fs.copy(
+        this.templatePath('client/style.css'),
+        this.destinationPath('client/style.css')
+      );
+    },
+    
+    serverfiles: function() {
+      this.fs.copy(
+        this.templatePath('server/app.js'),
+        this.destinationPath('server/app.js')
       );
     }
   },
