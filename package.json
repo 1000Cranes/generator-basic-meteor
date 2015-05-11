@@ -6,8 +6,8 @@
   "main": "app/index.js",
   "repository": "1000Cranes/generator-super-meteor",
   "author": {
-    "name": "Lec",
-    "email": "",
+    "name": "Loura",
+    "email": "loura@mightymeteorites.com",
     "url": "https://github.com/1000Cranes"
   },
   "scripts": {
